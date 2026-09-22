@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  {% block title %}<title>Formation CNI</title>{% endblock %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Favicons -->
+  <link href="{% static 'img/favicon.png' %%}" rel="icon">
+  {% comment %} <link href="{% static 'img/apple-touch-icon.png' %}%" rel="apple-touch-icon"> {% endcomment %}
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'vendor/animate.css/animate.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Add additional CSS in static file -->
+  <!-- Template Main CSS File -->
+  <link href="{% static 'css/style.css' %} " rel="stylesheet">
+</head>
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top">
+    {% if messages %}
+    <ul class="messages" style="list-style: none;">
+        {% for message in messages %}
+            <li class="alert alert-danger">{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+    <div class="container d-flex align-items-center">
+      
+      {% comment %} <h1 class="logo me-auto"><a href="index.html">Mentor</a></h1> {% endcomment %}
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <a href="{% url 'home' %}" class="logo me-auto"><img src="{% static 'img/favicon.png' %}" alt="logo"  class="img-fluid"><span class="logotxt"> Centre National de l’Informatique </span></a>
+
+      <nav id="navbar" class="navbar order-last order-lg-0">
+        <ul>
+          <li><a class="active" href="#">Acceuil</a></li>
+          {% if user.is_authenticated %}
+          <li><a href="{% url 'profile' %}">Profile</a></li>
+          {% endif %}
+          {% if user.is_staff %}
+          <li><a href="{% url 'formateur-list' %}">Formateurs</a></li>
+          {% endif %}
+          <li><a href="#">Contacts</a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->          
+      {% if user.is_authenticated %}
+      <a href="{% url 'logout' %}" class="get-started-btn">Deconnecter</a>
+      {% else %}
+      <a href="{% url 'login' %}" class="get-started-btn">Connecter</a>
+      {% endif %}
+
+    </div>
+  </header><!-- End Header -->
+<div class="container">
+    {% block content %}
+    
+    {% endblock content %}
+</div>
+ <!-- {% static 'vendor JS Files -->
+ <script src="{% static 'vendor/purecounter/purecounter_vanilla.js' %}"></script>
+ <script src="{% static 'vendor/aos/aos.js' %}"></script>
+ <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+ <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+ <script src="{% static 'vendor/php-email-form/validate.js' %}"></script>
+
+ <!-- Template Main JS File -->
+ <script src="{% static 'js/main.js' %} "></script> 
+
+</body>
+</html>

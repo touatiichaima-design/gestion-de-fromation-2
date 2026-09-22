@@ -1,0 +1,87 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/table.css' %}">
+<div class="container">
+<div class="table">
+    <div class="image">
+        <img src="{% static 'images/one.png' %}" style="height:100px;" alt="">
+    </div>
+    <div class="text">
+        <h1>Feuille de Présence</h1>
+    </div>
+    <div class="list">
+        <ul>
+            <li><span>Ref:</span> {{formation.name}}-{{formation.pk}}</li>
+            <li><span>Version:</span> 0{{formation.pk}}</li>
+            <li><span>Date D'applcation:</span>  {{formation.date_debut}}</li>
+        </ul>
+    </div>
+</div>
+
+    <div class="contenu">
+    <h4>Entreprise: Centre National de L'informatique</h4>
+    <div class="action">
+        <div class="input">
+        Num Action: <input type="text" name="" id="">
+    </div>
+    <div class="input">    
+    <input type="checkbox" name="" id=""> <span>Crédit d'impot</span>
+</div>    
+    <div class="input">    
+    <input type="checkbox" name="" id=""> Droit de tirage (individuel)
+    </div>        
+    <div class="input">
+    <input type="checkbox" name="" id=""> Droit de tirage (collectif)
+    </div>        
+<br>
+<div class="contenu2">
+    <div class="theme">
+    <span class="titre">Théme de Formation</span> <label>{{formation.name}}</label> 
+    <span class="titre">Loi de Finances</span> <label>............</label>
+    <span class="titre">Mode de Formation </span> <label>{{formation.domaine}}</label>
+    <span class="titre">inter</span> <label>............</label>
+</div>    
+    <div class="donne">
+        <span class="titre">Lieu de Deroulement</span> <label>.......</label>
+        <span class="titre">CNI</span> <label>.......</label>
+        <span class="titre">Governorat</span> <label>.......</label>
+        <span class="titre">Tunis</span> <label>............</label>
+        <span class="titre">Numero de Salle</span> <label>{{formation.num_salle}}</label>
+    </div>
+    <div class="periode">
+        <span class="titre">Période de </span> <label>....{{formation.date_debut}} </label> <label>Au: ...{{formation.date_fin}}</label>
+        <span class="titre">Horaire de </span> <label>{{formation.horraire_debut}}</label>  <label>a ......</label>
+        <span class="titre">Pause de</span> <label>..</label> <label>a ...</label>
+    </div>
+</div>
+<div class="participants">
+    <table>
+        <tr>
+        <th>Nom et Prenom</th>
+        <th>N'CIN</th>
+        <th>Direction/Service</th>
+        <th>Entreprise</th>
+        <th>
+                    {% for date in dates %}
+                    <td class="date">Journée de {{date}}</td>
+                    {% endfor %} 
+        </th>
+    </tr>
+    {% if participants %}
+        {% for participant in participants %}
+        <tr>
+            <td>{{participant}}</td>
+            <td>{{participant.cin}}</td>
+            <td>{{participant.service}}</td>
+            <td>CNI</td>
+            {% for date in dates %}
+            <td>belhassen</td>
+            {% endfor %}
+        </tr>    
+        {% endfor %}
+    {% endif %}
+    </table>
+</div>    
+
+
+
+</div>

@@ -1,0 +1,302 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="d-flex justify-content-center align-items-center">
+    <div class="container position-relative" data-aos="zoom-in" data-aos-delay="100">
+      <h1>Apprendre aujourd’hui,<br>Diriger demain</h1>
+      <h2>Toute personne qui continue d’apprendre reste jeune</h2>
+      <a href="#" class="btn-get-started">Get Started</a>
+    </div>
+  </section><!-- End Hero -->
+
+  <main id="main">
+
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+      <div class="container" data-aos="fade-up">
+
+        <div class="row">
+          <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-left" data-aos-delay="100">
+            <img src="{% static 'img/about.jpg' %}" class="img-fluid" alt="">
+          </div>
+          <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content">
+            <h3>Le CNI propose chaque année un programme de séminaires de haut niveau pour assurer la qualité de la formation dans le domaine par :</h3>
+            <ul>
+              <li><i class="bi bi-check-circle"></i> Des programmes précis et détaillés.</li>
+              <li><i class="bi bi-check-circle"></i> Un contenu et une démarche pédagogique rodés</li>
+              <li><i class="bi bi-check-circle"></i> Une documentation de qualité</li>
+              <li><i class="bi bi-check-circle"></i> Un environnement matériel performant</li>
+              <li><i class="bi bi-check-circle"></i> les meilleurs formateurs spécialistes tunisiens & internationaux</li>
+              <li><i class="bi bi-check-circle"></i> Une formation sur mesure à la demande.</li>
+            </ul>
+
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End About Section -->
+
+    <!-- ======= Counts Section ======= -->
+    <section id="counts" class="counts section-bg">
+      <div class="container">
+
+        <div class="row counters">
+
+          <div class="col-lg-3 col-6 text-center">
+            <span data-purecounter-start="0" data-purecounter-end="1232" data-purecounter-duration="1" class="purecounter"></span>
+            <p>Participants</p>
+          </div>
+
+          <div class="col-lg-3 col-6 text-center">
+            <span data-purecounter-start="0" data-purecounter-end="64" data-purecounter-duration="1" class="purecounter"></span>
+            <p>Formations</p>
+          </div>
+
+          <div class="col-lg-3 col-6 text-center">
+            <span data-purecounter-start="0" data-purecounter-end="42" data-purecounter-duration="1" class="purecounter"></span>
+            <p>Evenements</p>
+          </div>
+
+          <div class="col-lg-3 col-6 text-center">
+            <span data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="1" class="purecounter"></span>
+            <p>Formateurs</p>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Counts Section -->
+
+    <!-- ======= Why Us Section ======= -->
+    <section id="why-us" class="why-us">
+      <div class="container" data-aos="fade-up">
+
+        <div class="row">
+          <div class="col-lg-4 d-flex align-items-stretch">
+            <div class="content">
+              <h3>Pourquoi faire une formation?</h3>
+              <p>
+                Pour rester efficient professionnellement, améliorer ses performances, évoluer dans sa carrière, se maintenir dans son poste,
+                  répondre aux exigences de compétences spécifiques ou bien obtenir une promotion, il est nécessaire de se former tout au long de notre vie et de rester en veille sur le marché des métiers et des compétences.
+              </p>
+              <div class="text-center">
+                <a href="#" class="more-btn">plus d'information <i class="bx bx-chevron-right"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-8 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+            <div class="icon-boxes d-flex flex-column justify-content-center">
+              <div class="row">
+                <div class="col-xl-4 d-flex align-items-stretch">
+                  <div class="icon-box mt-4 mt-xl-0">
+                    <i class="bx bx-receipt"></i>
+                    <h4>Monter en grade</h4>
+                    <p>Faire une formation pour gravir les échelons est l’une des raisons les plus courantes pour suivre une formation. Monter en grade.</p>
+                  </div>
+                </div>
+                <div class="col-xl-4 d-flex align-items-stretch">
+                  <div class="icon-box mt-4 mt-xl-0">
+                    <i class="bx bx-cube-alt"></i>
+                    <h4>connaissances de base</h4>
+                    <p>Quand on se demande pourquoi faire une formation, on pense formation initiale. C’est-à-dire faire une formation pour obtenir des connaissances de base.</p>
+                  </div>
+                </div>
+                <div class="col-xl-4 d-flex align-items-stretch">
+                  <div class="icon-box mt-4 mt-xl-0">
+                    <i class="bx bx-images"></i>
+                    <h4>Booster sa motivation</h4>
+                    <p>Quand on est salarié, apprendre de nouvelles choses et acquérir de nouvelles compétences est toujours dynamisant.</p>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End .content-->
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Why Us Section -->
+
+    <section id="popular-courses" class="courses">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title"> 
+          <h2>Formation</h2>
+          <p>Formations Populaires</p>
+        </div>
+
+        <div class="row" data-aos="zoom-in" data-aos-delay="100">
+          {% if myFormation %}
+          {% for formation in myFormation %}
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
+            <a href="{% url 'formation' formation.slug %}">
+              {% if formation.image %}              
+              <div class="course-item">
+                <img src="{{formation.image.url}}" class="img-fluid" alt="...">
+                <div class="course-content">
+                  <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4>{{formation.domaine}}</h4>
+                  </div>
+                  
+                  {% endif %}
+                  <h3><a href="{% url 'formation' formation.slug %}">{{formation.name}}</a></h3>
+                  <p>{{formation.description|slice:150}}</p>
+                  <div class="trainer d-flex justify-content-between align-items-center">
+                  <div class="trainer-profile d-flex align-items-center">
+                    <img src="{% static 'img/trainers/trainer-3.jpg' %}" class="img-fluid" alt="">
+                    <span>{{formation.formateur}}</span>
+                  </div>
+                  <div class="trainer-rank d-flex align-items-center">
+                    <i class="bx bx-user"></i>&nbsp; {{ formation.participant.count }}
+                    {% if participant_user in formation.participant.all %}
+                    {% if not participant_user.user.is_staff %}
+                    <a href="{% url 'leave_formation' formation.slug %}" style="margin-left:15px;color:red;" class="join">Leave</a>                   
+                    {% else %}
+                    <a href="{% url 'join_formation' formation.slug %}" style="margin-left:15px;" class="join">Join</a>                   
+                    {% endif %}
+                    {% endif %}
+                    &nbsp;&nbsp;
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+          </div>
+          {% endfor %}
+           <!-- End Course Item-->
+          {% else %}
+          <div class="alert alert-warning" role="alert">
+            aucune formation pour le moment, a bientôt .
+          </div>
+          {% endif %}
+        </div>
+
+      </div>
+    </section><!-- End Popular Courses Section -->
+
+    <section id="trainers" class="trainers">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title"> 
+          <h2>Formateurs</h2>
+        </div>
+        <div class="row" data-aos="zoom-in" data-aos-delay="100">
+          {% for formateur in formateurs %}
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+            <div class="member">
+              {% if formateur.image %}              
+              <img src="{{formateur.image.url}}" class="img-fluid" alt="{{formateur.nom}}">
+              {% endif %}
+              <div class="member-content">
+                <h4>{{formateur.nom}} {{formateur.prenom}}</h4>
+                <span>{{formateur.domaine}}</span>
+                <p>
+                  Il forme les employés d'une entreprise à un nouveau logiciel ou à de nouvelles fonctionnalités mais aussi des ingénieurs qui doivent maîtriser des outils plus complexes.
+                </p>
+                <div class="social">
+                  <a href=""><i class="bi bi-twitter"></i></a>
+                  <a href=""><i class="bi bi-facebook"></i></a>
+                  <a href=""><i class="bi bi-instagram"></i></a>
+                  <a href=""><i class="bi bi-linkedin"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+      </div>
+    </section><!-- End Trainers Section -->
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6 footer-contact">
+            <h3> Centre National de l’Informatique</h3>
+            <p>
+              17, rue Belhassen Ben Chaabane, 1005 El Omrane, Tunis Tunisie. <br><br>
+              <strong>Tel:</strong>  + 216 71 783 055<br>
+              <strong>Email:</strong> webcni@cni.tn<br>
+              <strong>Website</strong> http://www.cni.tn <br>
+            </p>
+          </div>
+
+          <div class="col-lg-2 col-md-6 footer-links">
+            <h4> Liens Utiles</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Ministère des Technologies de Communication</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Portail de l'Administration Tunisienne</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Agence Tunisienne d’Internet</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Agence Nationale de la Certification Electronique</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Agence Nationale de la sécurité Informatique</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4> Liens Utiles</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Tunisie Télécom</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Poste tunisienne</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Smart Tunisia</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Open Data</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-4 col-md-6 footer-newsletter">
+            <h4>Join Our Newsletter</h4>
+            <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
+            <form action="" method="post">
+              <input type="email" name="email"><input type="submit" value="Subscribe">
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container d-md-flex py-4">
+
+      <div class="me-md-auto text-center text-md-start">
+        <div class="copyright">
+          &copy; Copyright © 2016 Centre National de l'Informatique  <strong><span></span></strong>. tous droits réservés 
+        </div>
+        <div class="credits">
+          <!-- All the links in the footer should remain intact. -->
+          <!-- You can delete the links only if you purchased the pro version. -->
+          <!-- Licensing information: https://bootstrapmade.com/license/ -->
+          <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/mentor-free-education-bootstrap-theme/ -->
+          made with love by <a href="#">belhazzh</a>
+        </div>
+      </div>
+      <div class="social-links text-center text-md-right pt-3 pt-md-0">
+        <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+        <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+        <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+        <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <script>
+    // Set a timeout for the message element to disappear after 5 seconds
+    setTimeout(function() {
+        var messageElement = document.querySelector('.messages');
+        messageElement.style.opacity = '0';
+        setTimeout(function() {
+            messageElement.style.display = 'none';
+        }, 500); // fade out animation duration
+    }, 2000);
+</script>
+
+  {% endblock content %}

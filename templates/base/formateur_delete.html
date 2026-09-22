@@ -1,0 +1,19 @@
+{% extends "registration/based_login.html" %}
+
+{% block content %}
+{% if  request.user.is_staff%}
+
+<h1>Delete Formateur</h1>
+
+<p>Are you sure you want to delete this formateur?</p>
+
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Delete</button>
+</form>
+
+{% else %}
+<h1>Permession Denied to see this page!</h1>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,330 @@
+{% extends "registration/based_login.html" %}
+{% load static %}
+{% block content %}
+
+<!-- start loader -->
+<div id="pageloader-overlay" class="visible incoming"><div class="loader-wrapper-outer"><div class="loader-wrapper-inner" ><div class="loader"></div></div></div></div>
+<!-- end loader -->
+
+<!-- Start wrapper-->
+<div id="wrapper">
+
+<!--Start sidebar-wrapper-->
+<div id="sidebar-wrapper" data-simplebar="" data-simplebar-auto-hide="true">
+  <div class="brand-logo">
+   <a href="{% url 'home' %}">
+    <img src="{% static 'img/favicon.png' %}" class="logo-icon" alt="logo icon">
+    <h5 class="logo-text">CNI Admin</h5>
+  </a>
+</div>
+<ul class="sidebar-menu do-nicescrol">
+   <li class="sidebar-header">MAIN NAVIGATION</li>
+
+   <li>
+     <a href="{% url 'profile' %}">
+       <i class="zmdi zmdi-face"></i> <span>Profile</span>
+     </a>
+   </li>
+
+   <li>
+     <a href="{% url 'login' %}" target="_blank">
+       <i class="zmdi zmdi-lock"></i> <span>Login</span>
+     </a>
+   </li>
+
+    <li>
+     <a href="{% url 'register' %}" target="_blank">
+       <i class="zmdi zmdi-account-circle"></i> <span>Registration</span>
+     </a>
+   </li>
+ 
+   <li class="sidebar-header">LABELS</li>
+   <li><a href="javaScript:void();"><i class="zmdi zmdi-coffee text-danger"></i> <span>Important</span></a></li>
+   <li><a href="javaScript:void();"><i class="zmdi zmdi-chart-donut text-success"></i> <span>Warning</span></a></li>
+   <li><a href="javaScript:void();"><i class="zmdi zmdi-share text-info"></i> <span>Information</span></a></li>
+
+ </ul>
+
+</div>
+<!--End sidebar-wrapper-->
+
+<!--Start topbar header-->
+<header class="topbar-nav">
+<nav class="navbar navbar-expand fixed-top">
+<ul class="navbar-nav mr-auto align-items-center">
+ <li class="nav-item">
+   <a class="nav-link toggle-menu" href="javascript:void();">
+    <i class="icon-menu menu-icon"></i>
+  </a>
+ </li>
+ <li class="nav-item">
+   <form class="search-bar">
+     <input type="text" class="form-control" placeholder="Enter keywords">
+      <a href="javascript:void();"><i class="icon-magnifier"></i></a>
+   </form>
+ </li>
+</ul>
+  
+<ul class="navbar-nav align-items-center right-nav-link">
+  {% if request.user.is_staff %}
+ <li class="nav-item dropdown-lg">
+   <a  href="{% url 'create_formation' %}">
+    <span style="margin-right:5px">formation</span><i class="fa fa-plus" aria-hidden="true"></i>
+  </a>
+ </li>
+ {% endif %}
+ <li class="nav-item dropdown-lg">
+   <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect" data-toggle="dropdown" href="javascript:void();">
+    <ul class="dropdown-menu dropdown-menu-right">
+      <li class="dropdown-item"> formation English editer par oussema aloui </li>
+    </ul>
+   <i class="fa fa-bell-o"></i></a>
+ </li>
+ <li class="nav-item language">
+   <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect" data-toggle="dropdown" href="javascript:void();"><i class="fa fa-flag"></i></a>
+   <ul class="dropdown-menu dropdown-menu-right">
+       <li class="dropdown-item"> <i class="flag-icon flag-icon-gb mr-2"></i> English</li>
+       <li class="dropdown-item"> <i class="flag-icon flag-icon-fr mr-2"></i> French</li>
+       <li class="dropdown-item"> <i class="flag-icon flag-icon-cn mr-2"></i> Chinese</li>
+       <li class="dropdown-item"> <i class="flag-icon flag-icon-de mr-2"></i> German</li>
+     </ul>
+ </li>
+ <li class="nav-item">
+   <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
+     <span class="user-profile"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAb1JREFUSEu1leE1BEEQhOsiQATIgAgQASJABIgAESACRIAIEAEZIAMi4H33urw2t7M7997e/NrbuamurqqenWjBa7JgfLUW2JZ0I2ktCH1IOpL0PESwtQCAqwUY79bHKADr9wAyoZ/4TQEKVVdXB+eStuLgl6STOP0taTmeeb8Uz1fxHiJIdpGrlQUOQ+uS0Z0kCpstYPw+6KCON7d+nwvA7jWMhAUgmLsn6a2iwYakh2BO8bMgsSmJLv+lCLAnSS8BnDEpdikJQBYFTzv0RyLk3XHCcgcwvU+6AsACnM6svwvDEKaWDS+OY3M/OpuZg+wBh2GKBLvRGfssNIbpY0jo7tmremBmjqC7c2JyJB3dPAvluSleV0znKfCZprupAJnHTFYpEQbSPotrA1nmkiibfJ0GDDnwwoNlKRk8UtVsso2CKTErY0pKckzptrwmemNKDDkAU6bUg0bk+gaNaAPMWc7hC0RmBg3GtauCWDLd+apgah3b3O1gTGkdPwCDhYeH55VAypcdftE9HTMzSPm3Wr4Ho1/Xhb/Tn5mx9/MMdJ2pDlrXn0kYPvirBjj6j/bJrDIc2mjxYAijd/8X17lwGX/yQpcAAAAASUVORK5CYII="/></span>
+   </a>
+   <ul class="dropdown-menu dropdown-menu-right">
+    <li class="dropdown-item user-details">
+     <a href="javaScript:void();">
+        <div class="media">
+          {% if request.user.profile.image %}
+          <div class="avatar"><img class="align-self-start mr-3" src="{{request.user.profile.image.url}}" alt="user avatar"></div>
+          {% endif %}
+         <div class="media-body">
+         <h6 class="mt-2 user-title">{{request.user.profile.name}}</h6>
+         {% if request.user.profile.email %}         
+         <p class="user-subtitle">{{request.user.profile.email}}</p>
+         {% endif %}
+         </div>
+        </div>
+       </a>
+     </li>
+     <li class="dropdown-divider"></li>
+     <li class="dropdown-item"><i class="icon-envelope mr-2"></i> Inbox</li>
+     <li class="dropdown-divider"></li>
+     <li class="dropdown-item"><i class="icon-wallet mr-2"></i> Account</li>
+     <li class="dropdown-divider"></li>
+     <li class="dropdown-item"><i class="icon-settings mr-2"></i> Setting</li>
+     <li class="dropdown-divider"></li>
+     <a href="{% url 'logout' %}"><li class="dropdown-item"><i class="icon-power mr-2"></i> Logout</li></a>
+   </ul>
+ </li>
+</ul>
+</nav>
+</header>
+<!--End topbar header-->
+
+<div class="clearfix"></div>
+	
+  <div class="content-wrapper">
+    <div class="container-fluid">
+
+
+      <div class="row mt-3">
+        <div class="col-lg-4">
+           <div class="card profile-card-2">
+            <div class="card-img-block">
+            </div>
+            <div class="card-body pt-5">
+              {% if request.user.profile.image %}
+              <img src="{{request.user.profile.image.url}}" alt="profile-image" class="profile" style="max-height:81px; min-width:85px;" >
+              {% else %}
+              <img src="{% static 'images/user.png' %}" alt="profile-image" class="profile" style="max-height:81px; min-width:70px" >
+              {% endif %}
+                {% if request.user.profile %}
+                    <h5 class="card-title">{{request.user.profile.name}}</h5>
+                {% endif %}
+                <p class="card-text">salut, je suis votre dash de gestion de formation.</p>
+                <div class="icon-block">
+                  <a href="javascript:void();"><i class="fa fa-facebook bg-facebook text-white"></i></a>
+				  <a href="javascript:void();"> <i class="fa fa-twitter bg-twitter text-white"></i></a>
+				  <a href="javascript:void();"> <i class="fa fa-google-plus bg-google-plus text-white"></i></a>
+                </div>
+            </div>
+
+            <div class="card-body border-top border-light">
+              {% if formations %}
+                 <div class="media align-items-center">
+                  </div>
+                  {% for formation in formations %}
+                  <a href="{% url 'formation' formation.slug %}">
+                  <div class="media align-items-center">
+                   <div><img src="{{formation.image.url}}" class="skill-img" alt="{{formation.name}}"></div>
+                     <div class="media-body text-left ml-3">
+                       <div class="progress-wrapper">
+                         <p>{{formation.name}} <span class="float-right">{{formation.participant.count}}</span>
+                          <span><a href="{% url 'leave_formation' formation.slug %}"><img src="{% static 'images/12.png' %}" style="width:25px;position:absolute;right:40px" alt="remove"></a></span></p>
+                         <div class="progress" style="height: 5px;">
+                          <div class="progress-bar" style="width:50%"></div>
+                         </div>
+                        </div>                   
+                    </div>
+                  </div>
+                </a>
+                    <hr>
+                    {% endfor %}
+                    {% endif %}
+              </div>
+        </div>
+
+        </div>
+
+        <div class="col-lg-8">
+           <div class="card">
+            <div class="card-body">
+            <ul class="nav nav-tabs nav-tabs-primary top-icon nav-justified">
+              {% if request.user.is_staff %}
+              
+                <li class="nav-item">
+                    <a href="javascript:void();" data-target="#profile" data-toggle="pill" class="nav-link active"><i class="icon-user"></i> <span class="hidden-xs">Formation</span></a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:void();" data-target="#messages" data-toggle="pill" class="nav-link"><i class="icon-envelope-open"></i> <span class="hidden-xs">Activity</span></a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                  <a href="javascript:void();" data-target="#profile" data-toggle="pill" class="nav-link active"><i class="icon-envelope-open"></i> <span class="hidden-xs">Activity</span></a>
+              </li>
+                <li class="nav-item">
+                  <a href="javascript:void();" data-target="#messages" data-toggle="pill" class="nav-link "><i class="icon-user"></i> <span class="hidden-xs">Formation</span></a>
+              </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a href="javascript:void();" data-target="#edit" data-toggle="pill" class="nav-link"><i class="icon-note"></i> <span class="hidden-xs">Edit</span></a>
+                </li>
+            </ul>
+            <div class="tab-content p-3">
+                <div class="tab-pane active" id="profile">
+                    <h5 class="mb-3"> {% if request.user.is_staff %} Admin: {% else %} User: {% endif %}{{request.user.username}}</h5>
+                    <div class="row">
+                      {% if request.user.is_staff %}
+
+                        <div class="col-md-12">
+                            <h5 class="mt-2 mb-3"><span class="fa fa-clock-o ion-clock float-right"></span> Recent Formation</h5>
+                             <div class="table-responsive">
+                            <table class="table table-hover table-striped">
+                                <tbody>                    
+                                    {% for formation in allFormations %}                
+                                    <tr>
+                                      
+                                       <td style="display:flex;justify-content:space-between">
+                                        <a href="{% url 'formation2' formation.slug %}"> 
+                                            <span>{{formation.name}} by {{formation.formateur}}</span> 
+                                          </a>
+                                            <div class="btn"><a href="{% url 'update_formation' formation.slug %}">
+                                              <span class="btn btn-outline-info" style="margin-right:10px">edit</span></a>
+                                               <a href="{% url 'delete_formation' formation.slug %}"><span class="btn btn-outline-danger">delete</span></a>
+                                              </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                          </div>
+                        </div>
+                        
+                      {% else %}
+                      <div class="col-md-12">
+                         <div class="table-responsive">
+                        <table class="table table-hover table-striped">
+                            <tbody>                    
+                                {% for activity in activities %}                
+                                <tr>
+                                  
+                                   <td style="display:flex;justify-content:space-between">
+                                        <span>{{activity.name}}</span> 
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                      </div>
+                    </div>
+                      {% endif %}
+                    </div>
+                    <!--/row-->
+                </div>
+                <div class="tab-pane" id="messages">
+                    <div class="alert alert-info alert-dismissible" role="alert">
+                  </div>
+                  <div class="table-responsive">
+                    {% if request.user.is_staff %}                    
+                    {% if notifications %}
+                    <table class="table table-hover table-striped">
+                        <tbody>                           
+                            {% for notification in notifications %}         
+                            <tr>
+                                <td>
+                                   <span class="float-right font-weight-bold">{{notification.name}}</span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody> 
+                        {% else %}
+                        <tbody>
+                            <tr>
+                                <td>there is no actions yet!</td>
+                            </tr>
+                        </tbody>
+                        {% endif %}
+                    </table>
+                    {% else %}
+                    {% if suggestions %}
+                    <table class="table table-hover table-striped">
+                      <h5>Suggestions</h5>
+                        <tbody>                           
+                            {% for formation in suggestions %}         
+                            <tr>
+                                <td style="display:flex;justify-content:space-between;align-items:center">
+                                  <div class="text">
+                                   <span class="font-weight-bold"> {{formation.name}}</span> by {{formation.formateur}}
+                                  </div>
+                                  <div class="btn">
+                                    <a href="{% url 'join_formation' formation.slug %}" style="margin-left:15px;" class="btn btn-outline-success">Join</a>                   
+                                  </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody> 
+                        {% endif %}
+                    </table>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="tab-pane" id="edit">
+                  {% if form %}                 
+                  <form method='POST' enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <div class="form-group row">
+                      <label class="col-lg-3 col-form-label form-control-label"></label>
+                      <div class="col-lg-9">
+                        <input type="reset" class="btn btn-secondary" value="Cancel">
+                        <input type="submit" class="btn btn-primary" value="Save Changes">
+                      </div>
+                    </div>
+                  </form>
+                  {% endif %}
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+        
+  </div>
+
+  	<!--start overlay-->
+    <div class="overlay toggle-menu"></div>
+		<!--end overlay-->
+{% comment %} end Profile Content {% endcomment %}
+      {% endblock content %}

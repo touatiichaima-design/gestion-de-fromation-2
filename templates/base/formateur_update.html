@@ -1,0 +1,171 @@
+{% extends "registration/based_login.html" %}
+{% load static %}
+{% block content %}
+
+{% if request.user.is_staff %}
+<!-- start loader -->
+<div id="pageloader-overlay" class="visible incoming"><div class="loader-wrapper-outer"><div class="loader-wrapper-inner" ><div class="loader"></div></div></div></div>
+<!-- end loader -->
+
+<!-- Start wrapper-->
+<div id="wrapper">
+
+<!--Start sidebar-wrapper-->
+<div id="sidebar-wrapper" data-simplebar="" data-simplebar-auto-hide="true">
+  <div class="brand-logo">
+   <a href="{% url 'home' %}">
+    <img src="{% static 'img/favicon.png' %}" class="logo-icon" alt="logo icon">
+    <h5 class="logo-text">CNI Admin</h5>
+  </a>
+</div>
+<ul class="sidebar-menu do-nicescrol">
+   <li class="sidebar-header">MAIN NAVIGATION</li>
+
+   <li>
+     <a href="{% url 'profile' %}">
+       <i class="zmdi zmdi-face"></i> <span>Profile</span>
+     </a>
+   </li>
+
+   <li>
+     <a href="{% url 'login' %}" target="_blank">
+       <i class="zmdi zmdi-lock"></i> <span>Login</span>
+     </a>
+   </li>
+
+    <li>
+     <a href="{% url 'register' %}" target="_blank">
+       <i class="zmdi zmdi-account-circle"></i> <span>Registration</span>
+     </a>
+   </li>
+ 
+   <li class="sidebar-header">LABELS</li>
+   <li><a href="javaScript:void();"><i class="zmdi zmdi-coffee text-danger"></i> <span>Important</span></a></li>
+   <li><a href="javaScript:void();"><i class="zmdi zmdi-chart-donut text-success"></i> <span>Warning</span></a></li>
+   <li><a href="javaScript:void();"><i class="zmdi zmdi-share text-info"></i> <span>Information</span></a></li>
+
+ </ul>
+
+</div>
+<!--End sidebar-wrapper-->
+
+<!--Start topbar header-->
+<header class="topbar-nav">
+<nav class="navbar navbar-expand fixed-top">
+<ul class="navbar-nav mr-auto align-items-center">
+ <li class="nav-item">
+   <a class="nav-link toggle-menu" href="javascript:void();">
+    <i class="icon-menu menu-icon"></i>
+  </a>
+ </li>
+ <li class="nav-item">
+   <form class="search-bar">
+     <input type="text" class="form-control" placeholder="Enter keywords">
+      <a href="javascript:void();"><i class="icon-magnifier"></i></a>
+   </form>
+ </li>
+</ul>
+  
+<ul class="navbar-nav align-items-center right-nav-link">
+ <li class="nav-item dropdown-lg">
+   <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect" data-toggle="dropdown" href="javascript:void();">
+   <i class="fa fa-envelope-open-o"></i></a>
+ </li>
+ <li class="nav-item dropdown-lg">
+   <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect" data-toggle="dropdown" href="javascript:void();">
+    <ul class="dropdown-menu dropdown-menu-right">
+      <li class="dropdown-item"> formation English editer par oussema aloui </li>
+    </ul>
+   <i class="fa fa-bell-o"></i></a>
+ </li>
+ <li class="nav-item language">
+   <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect" data-toggle="dropdown" href="javascript:void();"><i class="fa fa-flag"></i></a>
+   <ul class="dropdown-menu dropdown-menu-right">
+       <li class="dropdown-item"> <i class="flag-icon flag-icon-gb mr-2"></i> English</li>
+       <li class="dropdown-item"> <i class="flag-icon flag-icon-fr mr-2"></i> French</li>
+       <li class="dropdown-item"> <i class="flag-icon flag-icon-cn mr-2"></i> Chinese</li>
+       <li class="dropdown-item"> <i class="flag-icon flag-icon-de mr-2"></i> German</li>
+     </ul>
+ </li>
+ <li class="nav-item">
+   <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
+     <span class="user-profile"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAb1JREFUSEu1leE1BEEQhOsiQATIgAgQASJABIgAESACRIAIEAEZIAMi4H33urw2t7M7997e/NrbuamurqqenWjBa7JgfLUW2JZ0I2ktCH1IOpL0PESwtQCAqwUY79bHKADr9wAyoZ/4TQEKVVdXB+eStuLgl6STOP0taTmeeb8Uz1fxHiJIdpGrlQUOQ+uS0Z0kCpstYPw+6KCON7d+nwvA7jWMhAUgmLsn6a2iwYakh2BO8bMgsSmJLv+lCLAnSS8BnDEpdikJQBYFTzv0RyLk3XHCcgcwvU+6AsACnM6svwvDEKaWDS+OY3M/OpuZg+wBh2GKBLvRGfssNIbpY0jo7tmremBmjqC7c2JyJB3dPAvluSleV0znKfCZprupAJnHTFYpEQbSPotrA1nmkiibfJ0GDDnwwoNlKRk8UtVsso2CKTErY0pKckzptrwmemNKDDkAU6bUg0bk+gaNaAPMWc7hC0RmBg3GtauCWDLd+apgah3b3O1gTGkdPwCDhYeH55VAypcdftE9HTMzSPm3Wr4Ho1/Xhb/Tn5mx9/MMdJ2pDlrXn0kYPvirBjj6j/bJrDIc2mjxYAijd/8X17lwGX/yQpcAAAAASUVORK5CYII="/></span>
+   </a>
+   <ul class="dropdown-menu dropdown-menu-right">
+    <li class="dropdown-item user-details">
+     <a href="javaScript:void();">
+        <div class="media">
+          {% if request.user.profile.image %}
+          <div class="avatar"><img class="align-self-start mr-3" src="{{request.user.profile.image.url}}" alt="user avatar"></div>
+          {% endif %}
+         <div class="media-body">
+         <h6 class="mt-2 user-title">{{request.user.profile.name}}</h6>
+         {% if request.user.profile.email %}         
+         <p class="user-subtitle">{{request.user.profile.email}}</p>
+         {% endif %}
+         </div>
+        </div>
+       </a>
+     </li>
+     <li class="dropdown-divider"></li>
+     <li class="dropdown-item"><i class="icon-envelope mr-2"></i> Inbox</li>
+     <li class="dropdown-divider"></li>
+     <li class="dropdown-item"><i class="icon-wallet mr-2"></i> Account</li>
+     <li class="dropdown-divider"></li>
+     <li class="dropdown-item"><i class="icon-settings mr-2"></i> Setting</li>
+     <li class="dropdown-divider"></li>
+     <a href="{% url 'logout' %}"><li class="dropdown-item"><i class="icon-power mr-2"></i> Logout</li></a>
+   </ul>
+ </li>
+</ul>
+</nav>
+</header>
+<!--End topbar header-->
+	
+  <div class="content-wrapper">
+    <div class="container-fluid">
+      {% if form.errors %}
+      <div class="alert alert-danger" role="alert">
+          <strong>Oops!</strong> There was an error processing your request:
+          <ul>
+              {% for field, errors in form.errors.items %}
+                  {% for error in errors %}
+                      <li>{{ field }} - {{ error }}</li>
+                  {% endfor %}
+              {% endfor %}
+          </ul>
+      </div>
+  {% endif %}
+  
+    <div class="row mt-3">
+      <div class="col-lg-6">
+         <div class="card">
+           <div class="card-body">
+           <div class="card-title">Creation de Formateur</div>
+           <hr>
+           <form method="post" enctype="multipart/form-data">
+             {% csrf_token %}
+             {{ form.as_p }}
+             <button type="submit">Update</button>
+           </form>
+           
+         </div>
+         </div>
+      </div>
+    </div><!--End Row-->
+
+	<!--start overlay-->
+		  <div class="overlay toggle-menu"></div>
+		<!--end overlay-->
+
+    </div>
+    <!-- End container-fluid-->
+    
+   </div><!--End content-wrapper-->
+   <!--Start Back To Top Button-->
+    <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+    <!--End Back To Top Button-->
+    {% else %}
+    <h1>Permession Denied to see this page!</h1>
+    {% endif %}
+    {% endblock content %}
