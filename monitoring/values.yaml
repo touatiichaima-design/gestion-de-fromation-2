@@ -8,6 +8,11 @@ grafana:
   service:
     type: NodePort
     nodePort: 30300
+  # Alertmanager est désactivé : ne pas créer sa source de données (sinon source "en erreur")
+  sidecar:
+    datasources:
+      alertmanager:
+        enabled: false
   resources:
     requests: { cpu: 100m, memory: 192Mi }
     limits:   { memory: 512Mi }
@@ -17,6 +22,19 @@ grafana:
     initialDelaySeconds: 180
     timeoutSeconds: 30
     failureThreshold: 10
+  readinessProbe:
+    httpGet: { path: /api/health, port: 3000 }
+    timeoutSeconds: 5
+    periodSeconds: 10
+    failureThreshold: 6
+  # Pas de téléchargement de plugins optionnels à chaque démarrage (connexion lente)
+  grafana.ini:
+    plugins:
+      preinstall_disabled: true
+    analytics:
+      check_for_updates: false
+      check_for_plugin_updates: false
+      reporting_enabled: false
 
 prometheus:
   service:

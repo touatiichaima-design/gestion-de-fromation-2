@@ -32,8 +32,9 @@ fi
 
 echo "==> Démarrage de Minikube"
 if ! minikube status >/dev/null 2>&1; then
-  minikube start --driver=docker --memory=3000 --cpus=2
+  # 3500 Mo : en dessous, l'API server + Prometheus + Grafana font swapper la VM
+  minikube start --driver=docker --memory=3500 --cpus=2
 fi
-minikube addons enable metrics-server
+# metrics-server non activé : Prometheus fournit déjà les métriques CPU/RAM
 
 kubectl get nodes -o wide
