@@ -32,3 +32,12 @@ docker-compose.yml
 .DS_Store
 Thumbs.db
 */env
+
+# Artefacts du scan de sécurité (CI) : ne doivent pas finir dans l'image
+.cache/
+trivy-results.sarif
+.github/
+k8s/
+monitoring/
+scripts/
+CLAUDE.md
