@@ -45,7 +45,7 @@ jobs:
 
       # ---------- 3. Sécurité : scan Trivy (DevSecOps) ----------
       - name: Scan Trivy - rapport lisible dans les logs
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0 (épinglé par SHA)
         with:
           image-ref: gestion-formation:scan
           format: table
@@ -54,7 +54,7 @@ jobs:
           exit-code: '0'          # mettre '1' pour bloquer le pipeline en cas de faille
 
       - name: Scan Trivy - rapport SARIF
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0 (épinglé par SHA)
         with:
           image-ref: gestion-formation:scan
           format: sarif
