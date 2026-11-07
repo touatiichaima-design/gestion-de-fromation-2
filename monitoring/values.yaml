@@ -9,8 +9,14 @@ grafana:
     type: NodePort
     nodePort: 30300
   resources:
-    requests: { cpu: 50m, memory: 128Mi }
-    limits:   { memory: 256Mi }
+    requests: { cpu: 100m, memory: 192Mi }
+    limits:   { memory: 512Mi }
+  # Premier démarrage lent sur une petite VM (migrations de la base interne de Grafana)
+  livenessProbe:
+    httpGet: { path: /api/health, port: 3000 }
+    initialDelaySeconds: 180
+    timeoutSeconds: 30
+    failureThreshold: 10
 
 prometheus:
   service:
