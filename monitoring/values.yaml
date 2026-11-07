@@ -1,0 +1,52 @@
+# Valeurs Helm pour kube-prometheus-stack, allégées pour une VM de 4 Go / Minikube 2,5 Go
+alertmanager:
+  enabled: false            # non nécessaire pour la démo, économise de la RAM
+
+grafana:
+  adminUser: admin
+  adminPassword: admin-pfe  # à changer après la première connexion
+  service:
+    type: NodePort
+    nodePort: 30300
+  resources:
+    requests: { cpu: 50m, memory: 128Mi }
+    limits:   { memory: 256Mi }
+
+prometheus:
+  service:
+    type: NodePort
+    nodePort: 30090
+  prometheusSpec:
+    retention: 2d
+    scrapeInterval: 30s
+    resources:
+      requests: { cpu: 100m, memory: 256Mi }
+      limits:   { memory: 768Mi }
+    # Permet à Prometheus de découvrir les ServiceMonitor de tous les namespaces
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+
+prometheusOperator:
+  resources:
+    requests: { cpu: 50m, memory: 64Mi }
+    limits:   { memory: 192Mi }
+
+kube-state-metrics:
+  resources:
+    requests: { cpu: 20m, memory: 32Mi }
+    limits:   { memory: 128Mi }
+
+prometheus-node-exporter:
+  resources:
+    requests: { cpu: 20m, memory: 32Mi }
+    limits:   { memory: 64Mi }
+
+# Composants du control-plane non joignables dans Minikube -> évite des alertes "down" inutiles
+kubeEtcd:
+  enabled: false
+kubeControllerManager:
+  enabled: false
+kubeScheduler:
+  enabled: false
+kubeProxy:
+  enabled: false

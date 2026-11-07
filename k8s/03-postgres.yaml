@@ -1,0 +1,62 @@
+# PostgreSQL : 1 replica (base de données = composant stateful)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: formation
+  labels: { app: postgres }
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate          # évite 2 pods Postgres sur le même volume pendant une mise à jour
+  selector:
+    matchLabels: { app: postgres }
+  template:
+    metadata:
+      labels: { app: postgres }
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              valueFrom: { configMapKeyRef: { name: formation-config, key: POSTGRES_DB } }
+            - name: POSTGRES_USER
+              valueFrom: { secretKeyRef: { name: formation-secret, key: POSTGRES_USER } }
+            - name: POSTGRES_PASSWORD
+              valueFrom: { secretKeyRef: { name: formation-secret, key: POSTGRES_PASSWORD } }
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+          readinessProbe:
+            exec: { command: ["sh", "-c", "pg_isready -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\""] }
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            exec: { command: ["sh", "-c", "pg_isready -U \"$POSTGRES_USER\""] }
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          resources:
+            requests: { cpu: 100m, memory: 128Mi }
+            limits:   { cpu: 500m, memory: 384Mi }
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: postgres-pvc
+---
+# Service ClusterIP : accessible uniquement à l'intérieur du cluster via le nom "postgres"
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: formation
+spec:
+  type: ClusterIP
+  selector: { app: postgres }
+  ports:
+    - port: 5432
+      targetPort: 5432

@@ -1,0 +1,7 @@
+# Namespace : isole toutes les ressources de la plateforme dans un espace dédié
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: formation
+  labels:
+    app.kubernetes.io/part-of: gestion-formation

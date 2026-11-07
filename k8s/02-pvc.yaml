@@ -1,0 +1,24 @@
+# PersistentVolumeClaims : stockage persistant (les données survivent au redémarrage des pods)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+  namespace: formation
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 2Gi
+---
+# Photos de profil (MEDIA) partagées entre les 2 replicas web
+# (Minikube = 1 seul nœud, donc ReadWriteOnce suffit pour plusieurs pods)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: media-pvc
+  namespace: formation
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 1Gi

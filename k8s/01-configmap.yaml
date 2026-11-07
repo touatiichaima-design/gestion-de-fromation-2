@@ -1,0 +1,12 @@
+# ConfigMap : variables de configuration NON sensibles (équivalent de la partie publique du .env)
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: formation-config
+  namespace: formation
+data:
+  DEBUG: "True"            # True pour la démo (sert les fichiers statiques avec runserver)
+  ALLOWED_HOSTS: "*"
+  POSTGRES_DB: "formation_db"
+  POSTGRES_HOST: "postgres" # = nom du Service PostgreSQL (DNS interne Kubernetes)
+  POSTGRES_PORT: "5432"
