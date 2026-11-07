@@ -206,3 +206,11 @@ class FormateurDeleteView(DeleteView):
     template_name = 'base/formateur_delete.html'
     def get_success_url(self):
         return reverse_lazy('formateur-list')
+
+# Django >= 5.0 : LogoutView n'accepte plus GET ; les liens "Deconnecter" des templates restent valides
+from django.conf import settings as _settings
+from django.contrib.auth import logout as _logout
+
+def logout_view(request):
+    _logout(request)
+    return redirect(_settings.LOGOUT_REDIRECT_URL or '/')

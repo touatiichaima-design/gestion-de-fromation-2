@@ -25,6 +25,7 @@ spec:
             - configMapRef: { name: formation-config }
         - name: migrate
           image: chaimatouati/gestion-formation:latest
+          imagePullPolicy: IfNotPresent
           command: ["python", "manage.py", "migrate", "--noinput"]
           envFrom:
             - configMapRef: { name: formation-config }
