@@ -7,8 +7,8 @@ WORKDIR /app
 
 COPY requirements.txt .
 
-# pip à jour (corrige les CVE de pip présentes dans l'image de base)
-RUN pip install --no-cache-dir --upgrade pip \
+# pip et setuptools à jour (corrige les CVE présentes dans l image de base)
+RUN pip install --no-cache-dir --upgrade pip setuptools \
  && pip install --no-cache-dir -r requirements.txt
 
 COPY . .

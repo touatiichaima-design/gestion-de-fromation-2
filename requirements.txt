@@ -1,7 +1,7 @@
 Django==5.2.19
 asgiref>=3.8.1,<4
 sqlparse==0.6.1
-Pillow==12.3.0
+Pillow==13.0.0
 tzdata==2026.6
 dj-database-url==3.1.2
 gunicorn==26.2.0
