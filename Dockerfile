@@ -20,6 +20,10 @@ RUN pip install --no-cache-dir -r requirements.txt \
 
 COPY . .
 
+# Fichiers statiques collectés au build, servis par WhiteNoise (DEBUG=False)
+RUN SECRET_KEY=build-only python manage.py collectstatic --noinput
+
 EXPOSE 8000
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Serveur d'application de production (au lieu du serveur de développement runserver)
+CMD ["gunicorn", "gestion_formation.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "2", "--timeout", "60", "--access-logfile", "-"]

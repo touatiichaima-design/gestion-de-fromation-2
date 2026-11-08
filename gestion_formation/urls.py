@@ -14,12 +14,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path,include,re_path
+from django.conf import settings
+from django.views.static import serve
 from base.views import logout_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/logout/', logout_view, name='logout'),  # avant auth.urls (Django 5 : LogoutView = POST uniquement)
     path('accounts/', include('django.contrib.auth.urls')),    
+    # Medias (photos) : avec DEBUG=False, Django ne les sert plus automatiquement
+    re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
     path('',include('base.urls')),
 ]

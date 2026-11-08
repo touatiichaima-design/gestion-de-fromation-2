@@ -5,7 +5,7 @@ metadata:
   name: formation-config
   namespace: formation
 data:
-  DEBUG: "True"            # True pour la démo (sert les fichiers statiques avec runserver)
+  DEBUG: "False"           # production : Gunicorn + WhiteNoise, pas de pages de debogage
   ALLOWED_HOSTS: "*"
   POSTGRES_DB: "formation_db"
   POSTGRES_HOST: "postgres" # = nom du Service PostgreSQL (DNS interne Kubernetes)
