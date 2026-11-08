@@ -73,27 +73,22 @@ class FormationDelete(DeleteView):
 @login_required
 def join_formation(request, slug):
     formation = get_object_or_404(Formation, slug=slug)
-    participant = Participant.objects.get(user=request.user)
-    if participant:
-        if participant in formation.participant.all():
-            messages.error(request, "You have already joined this formation.")
-            return reverse_lazy('home')
-        else:
-            formation.participant.add(participant)
-            messages.success(request, "You have joined the formation successfully.")
-            Activity.objects.create(name=f'participer a la formation {formation.name}',user=request.user)
-    else:
-        participant = Participant.objects.create(user=request.user)
-        formation.participant.add(participant)
-        messages.success(request, "You have joined the formation successfully.")
-        Activity.objects.create(name=f'participer a la formation {formation.name}',user=request.user)
-    formation.save()
+    participant, _ = Participant.objects.get_or_create(user=request.user, defaults={'email': request.user.email})
+    if formation.participant.filter(pk=participant.pk).exists():
+        messages.error(request, "You have already joined this formation.")
+        return redirect('profile')
+    if formation.max_places is not None and formation.participant.count() >= formation.max_places:
+        messages.error(request, "Cette formation est complète.")
+        return redirect('profile')
+    formation.participant.add(participant)
+    messages.success(request, "You have joined the formation successfully.")
+    Activity.objects.create(name=f'participer a la formation {formation.name}',user=request.user)
     return redirect('profile')
 
 @login_required
 def leave_formation(request, slug):
     formation = get_object_or_404(Formation, slug=slug)
-    participant = Participant.objects.get(user=request.user)
+    participant = Participant.objects.filter(user=request.user).first()
     if participant:
         if participant in formation.participant.all():
             formation.participant.remove(participant)
@@ -104,7 +99,6 @@ def leave_formation(request, slug):
     else:
         messages.error(request, "You are not a registered participant.")
         return redirect('register')
-    formation.save()
     return redirect('profile')
 
 
@@ -168,9 +162,7 @@ def profile(request):
 def formation_detail(request,slug):
     context = {}
     formation = {}
-    if slug:
-        formation = Formation.objects.get(slug=slug)
-        print(formation.name)
+    formation = get_object_or_404(Formation, slug=slug)
     d1 = formation.date_debut
     d2 = formation.date_fin
     nb_jours = abs((d2 - d1).days)

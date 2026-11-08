@@ -97,7 +97,7 @@
      <a href="javaScript:void();">
         <div class="media">
           {% if request.user.profile.image %}
-          <div class="avatar"><img class="align-self-start mr-3" src="{{request.user.profile.image.url}}" alt="user avatar"></div>
+          <div class="avatar"><img class="align-self-start mr-3" src="{{request.user.profile.image_url}}" alt="user avatar"></div>
           {% endif %}
          <div class="media-body">
          <h6 class="mt-2 user-title">{{request.user.profile.name}}</h6>

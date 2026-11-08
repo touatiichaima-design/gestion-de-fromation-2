@@ -98,7 +98,7 @@
      <a href="javaScript:void();">
         <div class="media">
           {% if request.user.profile.image %}
-          <div class="avatar"><img class="align-self-start mr-3" src="{{request.user.profile.image.url}}" alt="user avatar"></div>
+          <div class="avatar"><img class="align-self-start mr-3" src="{{request.user.profile.image_url}}" alt="user avatar"></div>
           {% endif %}
          <div class="media-body">
          <h6 class="mt-2 user-title">{{request.user.profile.name}}</h6>
@@ -137,7 +137,7 @@
             </div>
             <div class="card-body pt-5">
               {% if request.user.profile.image %}
-              <img src="{{request.user.profile.image.url}}" alt="profile-image" class="profile" style="max-height:81px; min-width:85px;" >
+              <img src="{{request.user.profile.image_url}}" alt="profile-image" class="profile" style="max-height:81px; min-width:85px;" >
               {% else %}
               <img src="{% static 'images/user.png' %}" alt="profile-image" class="profile" style="max-height:81px; min-width:70px" >
               {% endif %}
@@ -159,7 +159,7 @@
                   {% for formation in formations %}
                   <a href="{% url 'formation' formation.slug %}">
                   <div class="media align-items-center">
-                   <div><img src="{{formation.image.url}}" class="skill-img" alt="{{formation.name}}"></div>
+                   <div><img src="{{formation.image_url}}" class="skill-img" alt="{{formation.name}}"></div>
                      <div class="media-body text-left ml-3">
                        <div class="progress-wrapper">
                          <p>{{formation.name}} <span class="float-right">{{formation.participant.count}}</span>

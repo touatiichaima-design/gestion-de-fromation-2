@@ -134,7 +134,7 @@
             <a href="{% url 'formation' formation.slug %}">
               {% if formation.image %}              
               <div class="course-item">
-                <img src="{{formation.image.url}}" class="img-fluid" alt="...">
+                <img src="{{formation.image_url}}" class="img-fluid" alt="...">
                 <div class="course-content">
                   <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4>{{formation.domaine}}</h4>
@@ -186,7 +186,7 @@
           <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
             <div class="member">
               {% if formateur.image %}              
-              <img src="{{formateur.image.url}}" class="img-fluid" alt="{{formateur.nom}}">
+              <img src="{{formateur.image_url}}" class="img-fluid" alt="{{formateur.nom}}">
               {% endif %}
               <div class="member-content">
                 <h4>{{formateur.nom}} {{formateur.prenom}}</h4>

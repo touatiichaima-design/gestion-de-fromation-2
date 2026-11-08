@@ -9,6 +9,16 @@ from django.contrib.auth import get_user_model
 
 # Create your models here.
 
+
+def _image_url(field, defaut):
+    """URL d'une image, ou image par défaut si aucun fichier n'est associé
+    (évite l'erreur « The 'image' attribute has no file associated with it »)."""
+    if not field:
+        return defaut
+    if str(field.name).startswith("/static/"):   # ancienne valeur par défaut stockée en base
+        return str(field.name)
+    return field.url
+
 class Formateur (models.Model):
     nom = models.CharField(max_length=70)
     prenom = models.CharField(max_length=50)
@@ -17,6 +27,9 @@ class Formateur (models.Model):
     image = models.ImageField(upload_to="images-formation",blank=True, null=True,default='/static/images/az.jpg')
     def __str__(self):
         return self.nom
+    @property
+    def image_url(self):
+        return _image_url(self.image, "/static/images/az.jpg")
 
 class Participant(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE,null=True,blank=True)
@@ -45,11 +58,10 @@ class Formation(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
     slug = models.SlugField(null=True,blank=True)
     def __str__(self):
-        return str(self.name + " par " + self.formateur.name)
-    def save(self, *args, **kwargs):
-        if Formation.objects.count() >= self.max_places:
-            raise ValidationError("la formation est saturé.")
-        super().save(*args, **kwargs)
+        return f"{self.name} par {self.formateur.nom}"
+    @property
+    def image_url(self):
+        return _image_url(self.image, "/static/img/course-1.jpg")
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE,blank=True, null=True)
@@ -58,16 +70,19 @@ class Profile(models.Model):
     name = models.CharField(max_length=50,blank=True, null=True)
     def __str__(self):
         return str(self.user.username)
+    @property
+    def image_url(self):
+        return _image_url(self.image, "/static/images/user.png")
 
 class Activity(models.Model):
-    name = models.CharField(max_length=50,blank=True, null=True)
+    name = models.CharField(max_length=255,blank=True, null=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE,blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True,blank=True, null=True)
     def __str__(self):
         return self.user.username
 
 class Notification(models.Model):
-    name = models.CharField(max_length=50,blank=True, null=True)
+    name = models.CharField(max_length=255,blank=True, null=True)
     timestamp = models.DateField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE,blank=True, null=True)
     def __str__(self):
