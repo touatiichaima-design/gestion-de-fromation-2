@@ -1,0 +1,42 @@
+name: User story
+description: Nouvelle fonctionnalité du Product Backlog (format Scrum)
+title: "[US] "
+labels: ["user-story"]
+body:
+  - type: textarea
+    id: story
+    attributes:
+      label: User story
+      description: "En tant que <rôle>, je veux <besoin> afin de <bénéfice>."
+      placeholder: "En tant qu'administratrice, je veux ... afin de ..."
+    validations:
+      required: true
+  - type: textarea
+    id: ac
+    attributes:
+      label: Critères d'acceptation
+      description: Conditions vérifiables pour valider la story (Definition of Done)
+      value: |
+        - [ ]
+        - [ ]
+    validations:
+      required: true
+  - type: dropdown
+    id: points
+    attributes:
+      label: Story points (Fibonacci)
+      options: ["1", "2", "3", "5", "8", "13"]
+    validations:
+      required: true
+  - type: dropdown
+    id: prio
+    attributes:
+      label: Priorité (MoSCoW)
+      options: ["Must", "Should", "Could", "Won't"]
+    validations:
+      required: true
+  - type: dropdown
+    id: epic
+    attributes:
+      label: Epic
+      options: ["docker", "ci-cd", "kubernetes", "monitoring", "securite", "application", "documentation"]

@@ -1,0 +1,30 @@
+name: Bug
+description: Signaler une anomalie
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: desc
+    attributes:
+      label: Description
+      description: Que se passe-t-il ?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Étapes pour reproduire
+      value: |
+        1.
+        2.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Comportement attendu
+  - type: dropdown
+    id: env
+    attributes:
+      label: Environnement
+      options: ["Kubernetes (Minikube)", "Docker Compose", "Pipeline CI/CD"]
