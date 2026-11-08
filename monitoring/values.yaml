@@ -29,6 +29,9 @@ grafana:
     failureThreshold: 6
   # Pas de téléchargement de plugins optionnels à chaque démarrage (connexion lente)
   grafana.ini:
+    # SQLite en mode WAL : évite les verrous de la base interne (annotations en 500 / panneaux bloqués)
+    database:
+      wal: true
     plugins:
       preinstall_disabled: true
     analytics:
