@@ -16,6 +16,23 @@ env:
 jobs:
   build-scan-push:
     runs-on: ubuntu-latest
+
+    # Base PostgreSQL éphémère pour les tests automatisés
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: test
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
     steps:
       # ---------- 1. Récupération du code + tests ----------
       - uses: actions/checkout@v4
@@ -29,8 +46,19 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Vérification Django
-        run: python manage.py check || true
+      # ---------- Tests : le pipeline s'arrête si un test échoue ----------
+      - name: Vérification et tests Django
+        env:
+          SECRET_KEY: ci-test-key
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: '5432'
+          POSTGRES_DB: test
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+        run: |
+          python manage.py check
+          python manage.py makemigrations --check --dry-run
+          python manage.py test base -v 2
 
       # ---------- 2. Build de l'image (locale, pas encore poussée) ----------
       - uses: docker/setup-buildx-action@v3
