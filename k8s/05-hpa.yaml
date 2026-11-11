@@ -1,0 +1,36 @@
+# HorizontalPodAutoscaler : élasticité de l'application
+# Kubernetes ajuste automatiquement le nombre de pods web entre 2 et 5
+# selon l'utilisation CPU moyenne (cible : 70 % de la requête CPU de 100m).
+# Prérequis : metrics-server (minikube addons enable metrics-server)
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: web
+  namespace: formation
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: web
+  minReplicas: 2          # haute disponibilité : jamais moins de 2 pods
+  maxReplicas: 5          # plafond adapté aux ressources de la VM
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 0      # réagit immédiatement à un pic de charge
+      policies:
+        - type: Pods
+          value: 2
+          periodSeconds: 30
+    scaleDown:
+      stabilizationWindowSeconds: 120    # attend 2 min de calme avant de réduire
+      policies:
+        - type: Pods
+          value: 1
+          periodSeconds: 60

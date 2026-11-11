@@ -20,6 +20,7 @@ kubectl apply -f k8s/03-postgres.yaml
 kubectl -n formation rollout status deploy/postgres --timeout=300s
 kubectl apply -f k8s/04-web.yaml
 kubectl -n formation rollout status deploy/web --timeout=600s
+kubectl apply -f k8s/05-hpa.yaml
 
 kubectl -n formation get all,pvc
 echo

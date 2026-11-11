@@ -35,6 +35,6 @@ if ! minikube status >/dev/null 2>&1; then
   # 3500 Mo : en dessous, l'API server + Prometheus + Grafana font swapper la VM
   minikube start --driver=docker --memory=3500 --cpus=2
 fi
-# metrics-server non activé : Prometheus fournit déjà les métriques CPU/RAM
+minikube addons enable metrics-server   # requis par l'HPA (auto-scaling)
 
 kubectl get nodes -o wide

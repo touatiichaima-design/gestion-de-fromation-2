@@ -36,13 +36,17 @@ spec:
             exec: { command: ["sh", "-c", "pg_isready -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\""] }
             initialDelaySeconds: 5
             periodSeconds: 5
+            timeoutSeconds: 5
+          # Sous forte charge, un délai d'1 s (défaut) faisait tuer la base par Kubernetes
           livenessProbe:
             exec: { command: ["sh", "-c", "pg_isready -U \"$POSTGRES_USER\""] }
             initialDelaySeconds: 30
-            periodSeconds: 10
+            periodSeconds: 15
+            timeoutSeconds: 10
+            failureThreshold: 6
           resources:
-            requests: { cpu: 100m, memory: 128Mi }
-            limits:   { cpu: 500m, memory: 384Mi }
+            requests: { cpu: 250m, memory: 128Mi }
+            limits:   { cpu: 1000m, memory: 384Mi }
       volumes:
         - name: data
           persistentVolumeClaim:
