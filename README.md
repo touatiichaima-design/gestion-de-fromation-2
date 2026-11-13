@@ -24,6 +24,7 @@ La plateforme gère les formations, les formateurs, les participants, les inscri
 | `base/`, `gestion_formation/`, `templates/`, `static/` | Application Django |
 | `k8s/` | Manifestes Kubernetes (namespace, ConfigMap, PVC, PostgreSQL, web) |
 | `monitoring/` | Valeurs Helm de Prometheus et Grafana |
+| `terraform/` | Infrastructure as Code : cluster multi-nœuds (local), AKS (Azure) et déploiement de l'application |
 | `scripts/` | Installation des outils, déploiement, monitoring, exposition |
 | `.github/workflows/` | Pipeline CI/CD |
 | `docs/scrum/` | Méthodologie Scrum et Product Backlog |

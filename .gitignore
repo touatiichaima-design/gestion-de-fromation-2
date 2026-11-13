@@ -25,3 +25,10 @@ media/
 # OS
 .DS_Store
 Thumbs.db
+
+# Terraform (etat local : contient des secrets)
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+crash.log
