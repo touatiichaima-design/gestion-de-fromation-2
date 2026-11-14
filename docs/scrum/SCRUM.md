@@ -53,16 +53,19 @@ Une story est terminée quand :
 
 ## 6. Planification des sprints
 
-| Sprint | Période | Objectif | Points |
-|---|---|---|---|
-| Sprint 1 | 14/09 → 27/09/2026 | Application conteneurisée, connectée à PostgreSQL, lançable en une commande | 15 |
-| Sprint 2 | 28/09 → 11/10/2026 | Chaque push construit et publie automatiquement l'image | 10 |
-| Sprint 3 | 12/10 → 25/10/2026 | Infrastructure décrite en manifestes Kubernetes | 19 |
-| Sprint 4 | 26/10 → 08/11/2026 | Déploiement Minikube, supervision, image sans vulnérabilité connue | 29 |
-| Sprint 5 | 09/11 → 22/11/2026 | Anomalies corrigées, déploiement proche de la production | 21 |
-| Sprint 6 | 23/11 → 06/12/2026 | Rapport final et soutenance | 13 |
+| Sprint | Période | Objectif | Stories | Points | État |
+|---|---|---|---|---|---|
+| Sprint 1 | 14/09 → 27/09/2026 | Application conteneurisée, connectée à PostgreSQL, lançable en une commande | #1 à #4 | 15 | ✅ Terminé |
+| Sprint 2 | 28/09 → 11/10/2026 | Chaque push construit et publie automatiquement l'image | #5 à #7 | 10 | ✅ Terminé |
+| Sprint 3 | 12/10 → 25/10/2026 | Infrastructure décrite en manifestes Kubernetes | #8 à #11 | 19 | ✅ Terminé |
+| Sprint 4 | 26/10 → 08/11/2026 | Déploiement Minikube, supervision, image sans vulnérabilité connue | #12 à #18 | 29 | ✅ Terminé |
+| Sprint 5 | 09/11 → 22/11/2026 | Qualité, élasticité, Infrastructure as Code, HTTPS, sauvegardes | #19 à #22, #26 à #29 | 34 | ✅ Terminé |
+| Sprint 6 | 23/11 → 06/12/2026 | Rapport final et soutenance | #24, #25 | 13 | ⏳ À venir |
+| Hors sprint | — | Déploiement continu GitOps (Argo CD) : reporté, perspective | #23 | 8 | Product Backlog |
 
-**Total : 25 user stories, 107 story points.** Le détail se trouve dans [backlog.json](backlog.json) et sur le tableau GitHub Projects.
+**Total : 29 user stories, 128 story points** (115 livrés). Le détail est sur le tableau GitHub Projects.
+
+**Ajustements de périmètre (Sprint Review du Sprint 5) :** après avoir constaté que la spécialité *Cloud* exigeait davantage d'élasticité et d'automatisation de l'infrastructure, le Product Owner a ajouté au sprint l'auto-scaling (#26), Terraform (#27), l'Ingress HTTPS (#28) et la sauvegarde PostgreSQL (#29). La story « Could » #23 (déploiement continu) a été retirée du sprint et laissée dans le Product Backlog.
 
 ## 7. Épopées (epics)
 
