@@ -51,21 +51,65 @@ Une story est terminée quand :
 - l'incrément est déployé et vérifié sur Minikube (pods `Running`, pages HTTP 200) ;
 - les critères d'acceptation sont validés et la documentation est à jour.
 
-## 6. Planification des sprints
+## 6. Planification des sprints (ordre logique des dépendances)
 
-| Sprint | Période | Objectif | Stories | Points | État |
-|---|---|---|---|---|---|
-| Sprint 1 | 14/09 → 27/09/2026 | Application conteneurisée, connectée à PostgreSQL, lançable en une commande | #1 à #4 | 15 | ✅ Terminé |
-| Sprint 2 | 28/09 → 11/10/2026 | Chaque push construit et publie automatiquement l'image | #5 à #7 | 10 | ✅ Terminé |
-| Sprint 3 | 12/10 → 25/10/2026 | Infrastructure décrite en manifestes Kubernetes | #8 à #11 | 19 | ✅ Terminé |
-| Sprint 4 | 26/10 → 08/11/2026 | Déploiement Minikube, supervision, image sans vulnérabilité connue | #12 à #18 | 29 | ✅ Terminé |
-| Sprint 5 | 09/11 → 22/11/2026 | Qualité, élasticité, Infrastructure as Code, HTTPS, sauvegardes | #19 à #22, #26 à #29 | 34 | ✅ Terminé |
-| Sprint 6 | 23/11 → 06/12/2026 | Rapport final et soutenance | #24, #25 | 13 | ⏳ À venir |
-| Hors sprint | — | Déploiement continu GitOps (Argo CD) : reporté, perspective | #23 | 8 | Product Backlog |
+Le Product Backlog est ordonné selon les **dépendances techniques** : chaque story ne commence que lorsque celles dont elle dépend sont terminées.
 
-**Total : 29 user stories, 128 story points** (115 livrés). Le détail est sur le tableau GitHub Projects.
+| Sprint | Période | Objectif | Points |
+|---|---|---|---|
+| Sprint 1 - Fondations : application conteneurisée | 14/09 → 27/09/2026 | Disposer d'une application Django configurée par variables d'environnement, connectée à PostgreSQL et lançable en une commande avec Docker Compose. | 15 |
+| Sprint 2 - Qualité et intégration continue | 28/09 → 11/10/2026 | Un dépôt propre et sans secret, un code corrigé et testé, et un pipeline qui teste, construit et publie l'image à chaque push. | 18 |
+| Sprint 3 - Sécurité DevSecOps et image de production | 12/10 → 25/10/2026 | Une image de production analysée par Trivy, sans vulnérabilité connue, durcie, et servie par Gunicorn avec DEBUG=False. | 21 |
+| Sprint 4 - Orchestration Kubernetes et Infrastructure as Code | 26/10 → 08/11/2026 | Déployer la plateforme sur Kubernetes, puis décrire tout le cluster et le déploiement en code avec Terraform. | 29 |
+| Sprint 5 - Exploitation : HTTPS, supervision, élasticité, sauvegardes | 09/11 → 22/11/2026 | Exposer la plateforme en HTTPS, la superviser, l'adapter automatiquement à la charge et sécuriser ses données par des sauvegardes. | 24 |
+| Sprint 6 - Rapport et soutenance | 23/11 → 06/12/2026 | Livrer le rapport final et réussir la démonstration de soutenance. | 13 |
 
-**Ajustements de périmètre (Sprint Review du Sprint 5) :** après avoir constaté que la spécialité *Cloud* exigeait davantage d'élasticité et d'automatisation de l'infrastructure, le Product Owner a ajouté au sprint l'auto-scaling (#26), Terraform (#27), l'Ingress HTTPS (#28) et la sauvegarde PostgreSQL (#29). La story « Could » #23 (déploiement continu) a été retirée du sprint et laissée dans le Product Backlog.
+### Ordre des stories dans chaque sprint
+
+**Sprint 1 - Fondations : application conteneurisée**
+1. #4 Externaliser la configuration dans des variables d'environnement
+2. #2 Migrer la base de données de SQLite vers PostgreSQL
+3. #1 Conteneuriser l'application Django
+4. #3 Orchestrer l'environnement local avec Docker Compose
+
+**Sprint 2 - Qualité et intégration continue**
+1. #6 Nettoyer le dépôt Git et purger les secrets de l'historique
+2. #20 Retirer les données personnelles des médias de démonstration
+3. #19 Bug : création d'une formation impossible si le nom dépasse 17 caractères
+4. #22 Ajouter des tests automatisés Django au pipeline
+5. #5 Publier l'image sur Docker Hub
+6. #7 Mettre en place le pipeline CI/CD GitHub Actions
+
+**Sprint 3 - Sécurité DevSecOps et image de production**
+1. #15 Scanner l'image Docker avec Trivy dans le pipeline
+2. #16 Corriger les vulnérabilités détectées par Trivy
+3. #17 Durcir l'image Docker
+4. #21 Servir l'application avec Gunicorn et DEBUG=False
+
+**Sprint 4 - Orchestration Kubernetes et Infrastructure as Code**
+1. #8 Installer le cluster Kubernetes Minikube
+2. #9 Écrire les manifestes de configuration (Namespace, ConfigMap, Secret, PVC)
+3. #10 Déployer PostgreSQL sur Kubernetes
+4. #11 Déployer l'application web avec 2 replicas
+5. #12 Migrer les données de Docker Compose vers Kubernetes
+6. #27 Infrastructure as Code avec Terraform (cluster multi-nœuds + application)
+
+**Sprint 5 - Exploitation : HTTPS, supervision, élasticité, sauvegardes**
+1. #28 Exposition HTTPS avec un Ingress NGINX
+2. #13 Installer Prometheus et Grafana avec Helm
+3. #14 Visualiser CPU et mémoire des pods dans Grafana
+4. #18 Stabiliser la stack de monitoring
+5. #26 Auto-scaling horizontal des pods (HPA) et test de charge
+6. #29 Sauvegarde automatique de PostgreSQL et restauration
+
+**Sprint 6 - Rapport et soutenance**
+1. #24 Rédiger le rapport de PFE
+2. #25 Préparer la soutenance et la démonstration
+
+**Product Backlog (hors sprint)**
+- #23 Déploiement continu (CD) vers le cluster : reportée, perspective (GitOps avec Argo CD)
+
+**Total : 29 user stories, 128 story points** (107 livrés). Détail : [backlog.json](backlog.json) et tableau GitHub Projects.
 
 ## 7. Épopées (epics)
 
