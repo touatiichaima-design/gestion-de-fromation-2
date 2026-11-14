@@ -29,6 +29,11 @@ DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
 
+# HTTPS derrière l'Ingress NGINX : le TLS est terminé par le proxy, qui transmet
+# X-Forwarded-Proto. Sans ces réglages, la protection CSRF rejette les formulaires.
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+CSRF_TRUSTED_ORIGINS = [o for o in os.getenv('CSRF_TRUSTED_ORIGINS', '').split(',') if o]
+
 # Application definition
 
 INSTALLED_APPS = [

@@ -1,0 +1,71 @@
+# Sauvegarde automatique de PostgreSQL
+# - CronJob : pg_dump (format compressé) chaque nuit à 2 h
+# - stockage sur un volume dédié, distinct de celui de la base
+# - rétention : 7 dernières sauvegardes
+# Restauration : scripts/restore-postgres.sh
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-backup
+  namespace: formation
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: postgres-backup
+  namespace: formation
+spec:
+  schedule: "0 2 * * *"            # tous les jours à 2 h du matin
+  timeZone: "Africa/Tunis"
+  concurrencyPolicy: Forbid          # jamais deux sauvegardes en même temps
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      activeDeadlineSeconds: 600
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: pg-dump
+              image: postgres:15
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: PGHOST
+                  value: postgres
+                - name: PGDATABASE
+                  valueFrom: { configMapKeyRef: { name: formation-config, key: POSTGRES_DB } }
+                - name: PGUSER
+                  valueFrom: { secretKeyRef: { name: formation-secret, key: POSTGRES_USER } }
+                - name: PGPASSWORD
+                  valueFrom: { secretKeyRef: { name: formation-secret, key: POSTGRES_PASSWORD } }
+                - name: RETENTION
+                  value: "7"
+                - name: TZ                     # horodatage des fichiers à l'heure de Tunis
+                  value: Africa/Tunis
+              command: ["sh", "-c"]
+              args:
+                - |
+                  set -e
+                  F=/backup/${PGDATABASE}_$(date +%Y%m%d_%H%M%S).dump
+                  pg_dump --format=custom --no-owner --file="$F.tmp"
+                  mv "$F.tmp" "$F"
+                  echo "Sauvegarde OK : $F ($(du -h "$F" | cut -f1))"
+                  ls -1t /backup/*.dump | tail -n +$((RETENTION + 1)) | xargs -r rm -v
+                  echo "Sauvegardes conservées :"; ls -lh /backup/*.dump
+              volumeMounts:
+                - name: backup
+                  mountPath: /backup
+              resources:
+                requests: { cpu: 50m, memory: 64Mi }
+                limits:   { cpu: 500m, memory: 256Mi }
+          volumes:
+            - name: backup
+              persistentVolumeClaim:
+                claimName: postgres-backup

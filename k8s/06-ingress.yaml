@@ -1,0 +1,53 @@
+# Ingress NGINX : point d'entrée HTTPS unique de la plateforme
+# - terminaison TLS (certificat signé par la CA du PFE, Secret "pfe-tls")
+# - redirection automatique HTTP -> HTTPS
+# Prérequis : minikube addons enable ingress ; scripts/05-certificats-tls.sh
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: formation
+  namespace: formation
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"     # envoi des photos de profil
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts: [formation.pfe.local]
+      secretName: pfe-tls
+  rules:
+    - host: formation.pfe.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: web
+                port:
+                  number: 8000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grafana
+  namespace: monitoring
+  annotations:
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts: [grafana.pfe.local]
+      secretName: pfe-tls
+  rules:
+    - host: grafana.pfe.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: monitoring-grafana
+                port:
+                  number: 80

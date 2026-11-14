@@ -120,3 +120,21 @@ class InscriptionFormationTests(TestCase):
         Profile.objects.create(user=self.user, name="alice")
         make_formation(self.formateur)
         self.assertEqual(self.client.get(reverse("profile")).status_code, 200)
+
+
+class HttpsDerriereProxyTests(TestCase):
+    """Connexion par formulaire en HTTPS derrière l'Ingress (X-Forwarded-Proto)."""
+
+    def test_connexion_https_derriere_proxy(self):
+        from django.test import Client, override_settings
+        User.objects.create_user("carol", "carol@test.tn", "MotDePasse-Test-789")
+        c = Client(enforce_csrf_checks=True)
+        hdr = {"HTTP_HOST": "formation.pfe.local", "HTTP_X_FORWARDED_PROTO": "https"}
+        with override_settings(ALLOWED_HOSTS=["formation.pfe.local"]):
+            page = c.get(reverse("login"), **hdr)
+            token = page.cookies["csrftoken"].value
+            r = c.post(reverse("login"), {"username": "carol", "password": "MotDePasse-Test-789",
+                                          "csrfmiddlewaretoken": token},
+                       HTTP_ORIGIN="https://formation.pfe.local",
+                       HTTP_REFERER="https://formation.pfe.local/accounts/login/", **hdr)
+        self.assertEqual(r.status_code, 302)

@@ -10,3 +10,4 @@ data:
   POSTGRES_DB: "formation_db"
   POSTGRES_HOST: "postgres" # = nom du Service PostgreSQL (DNS interne Kubernetes)
   POSTGRES_PORT: "5432"
+  CSRF_TRUSTED_ORIGINS: "https://formation.pfe.local"
