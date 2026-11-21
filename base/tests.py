@@ -122,6 +122,17 @@ class InscriptionFormationTests(TestCase):
         self.assertEqual(self.client.get(reverse("profile")).status_code, 200)
 
 
+class ProfilAdministrateurTests(TestCase):
+    """Un superutilisateur créé sans fiche Profile peut ouvrir sa page de profil."""
+
+    def test_profil_superuser_sans_fiche(self):
+        admin = User.objects.create_superuser("admin_test", "admin@test.tn", "motdepasse-test")
+        self.client.force_login(admin)
+        r = self.client.get(reverse("profile"))
+        self.assertEqual(r.status_code, 200)
+        self.assertTrue(Profile.objects.filter(user=admin).exists())
+
+
 class HttpsDerriereProxyTests(TestCase):
     """Connexion par formulaire en HTTPS derrière l'Ingress (X-Forwarded-Proto)."""
 

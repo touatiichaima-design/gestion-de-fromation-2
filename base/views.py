@@ -127,18 +127,21 @@ def signUpView(request):
 
 @login_required
 def profile(request):
-    try:
-        form = ProfileForm(instance=Profile.objects.get(user=request.user))
-    except:
-        form={}
+    # Un compte créé par createsuperuser ou par l'administration n'a pas de fiche Profile :
+    # on la crée à la première visite au lieu de provoquer une erreur 500.
+    user_profile, _ = Profile.objects.get_or_create(
+        user=request.user,
+        defaults={'name': request.user.username, 'email': request.user.email},
+    )
+    form = ProfileForm(instance=user_profile)
     if request.method == 'POST':
-        form = ProfileForm(request.POST,request.FILES,instance=Profile.objects.get(user=request.user))
+        form = ProfileForm(request.POST,request.FILES,instance=user_profile)
         if form.is_valid():
             form.save()
             return redirect(reverse_lazy('profile'))
     context = {}
     if request.user:
-        context['profile'] = Profile.objects.get(user=request.user)
+        context['profile'] = user_profile
         try:
             participant = Participant.objects.get(user=request.user)
             context['formations'] = participant.formation_set.all()
