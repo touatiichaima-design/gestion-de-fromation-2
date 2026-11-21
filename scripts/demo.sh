@@ -89,7 +89,7 @@ etape7() { titre "7. Élasticité : auto-scaling (HPA) sous charge"
   for i in $(seq 1 19); do
     sleep 10
     read -r cpu cur des < <(kubectl -n $NS get hpa web -o jsonpath='{.status.currentMetrics[0].resource.current.averageUtilization} {.status.currentReplicas} {.status.desiredReplicas}')
-    printf '   t+%3ss   CPU moyen : %4s %% (cible 70 %%)   pods : %s → %s\n' $((i*10)) "${cpu:-?}" "${cur:-?}" "${des:-?}"
+    printf '   t+%3ss   CPU moyen : %4s %% (cible 70 %%)   pods : %s → %s\n' $((i*10)) "${cpu:-?}" "${cur:-?}" "${des:-$cur}"
   done
   wait $K6
   dire "Résultat du test de charge"
